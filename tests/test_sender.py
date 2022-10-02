@@ -14,7 +14,7 @@ class TestSender(TestCase):
 
     def test_get_sensors_readings_from_files(self):
         with patch('bms_data_streamer.data_reader.'
-                   'FileDataReader.get_readings_from_files',
+                   'FileDataReader.readings_from_files',
                    return_value=self.readings):
             actual = get_sensors_readings_from_files()
         self.assertEqual(self.readings, actual)

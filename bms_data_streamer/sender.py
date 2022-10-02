@@ -13,7 +13,7 @@ def get_sensors_readings_from_files():
     reader = FileDataReader(
         path=readings_path,
     )
-    readings = reader.get_readings_from_files(extension='.txt')
+    readings = reader.readings_from_files(extension='.txt')
     return readings
 
 
