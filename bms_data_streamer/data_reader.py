@@ -1,27 +1,37 @@
 import glob
 import os
 
-script_path = os.path.abspath(__file__)
 
+class FileDataReader:
+    def __init__(self, path):
+        self._readings_path = path
 
-def get_sensors_readings_from_file():
-    readings = {}
-    readings_files = get_sensor_readings_files_list()
-    for file in readings_files:
-        with open(file) as fr:
-            sensor = os.path.basename(fr.name).split('.')[0]
-            readings[sensor] = []
-            for line in fr:
-                if line.startswith('#'):
+    @property
+    def readings_path(self):
+        assert os.path.isabs(self._readings_path), \
+            'Specified path is not absolute'
+        return self._readings_path
+
+    def get_files_list(self, extension):
+        files = glob.glob(self.readings_path + '/*' + extension)
+        if not files:
+            raise FileNotFoundError
+        return files
+
+    def get_readings_from_files(self, extension: str):
+        readings = {}
+        for file in self.get_files_list(extension):
+            bms_parameter = os.path.basename(file)
+            readings[bms_parameter] = []
+            for line in self.read_file(file):
+                if line[:1] == '#':
                     continue
-                readings[sensor].append(line)
-    return readings
+                reading = line.split('\n')[0]
+                readings[bms_parameter].append(reading)
+        return readings
 
-
-def get_sensor_readings_files_list():
-    readings_path = os.path.join(
-        os.path.dirname(script_path),
-        'sensor_readings'
-    )
-    files = glob.glob(readings_path + '/*.txt')
-    return files
+    @staticmethod
+    def read_file(file):
+        with open(file, 'r') as f_read:
+            for line in f_read:
+                yield line
