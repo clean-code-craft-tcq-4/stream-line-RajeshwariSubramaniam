@@ -8,4 +8,3 @@ Follow the below steps, to send the sensor readings over console
    Run command:- `python tasks.py generate`
 2. Send the data over console.
    Run command:- `python tasks.py send`
-   
