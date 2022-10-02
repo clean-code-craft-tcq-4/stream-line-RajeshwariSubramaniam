@@ -21,7 +21,8 @@ class FileDataReader:
     def get_readings_from_files(self, extension: str):
         readings = {}
         for file in self.get_files_list(extension):
-            bms_parameter = os.path.basename(file)
+            file_name = os.path.basename(file)
+            bms_parameter = file_name.split('.')[0]
             readings[bms_parameter] = []
             for line in self.read_file(file):
                 if line[:1] == '#':
