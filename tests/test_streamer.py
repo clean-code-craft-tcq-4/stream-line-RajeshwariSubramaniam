@@ -10,12 +10,12 @@ class TestDataSender(TestCase):
     def setUp(self):
         self.capturedOutput = io.StringIO()
         sys.stdout = self.capturedOutput
-        self.sender = DataStreamer({'foo': 'bar'})
+        self.sender = DataStreamer({'foo': ['bar']})
 
     def test_send_data_json(self):
         self.sender.stream_data_in_json()
         console_output = self.capturedOutput.getvalue()
-        self.assertEqual('{"foo": "bar"}\n', console_output)
+        self.assertEqual('{"foo": ["bar"]}\n', console_output)
         self.assertTrue(isinstance(json.loads(console_output), dict))
 
     def test_send_data_string(self):

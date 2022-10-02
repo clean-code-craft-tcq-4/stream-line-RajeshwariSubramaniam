@@ -10,8 +10,5 @@ class DataStreamer:
 
     def stream_data_in_string(self):
         for sensor, readings in self.data.items():
-            if isinstance(readings, list):
-                for reading in readings:
-                    print(sensor + ':' + str(reading))
-            else:
-                print(sensor + ':' + str(readings))
+            for reading in readings:
+                print(sensor + ':' + str(reading))
