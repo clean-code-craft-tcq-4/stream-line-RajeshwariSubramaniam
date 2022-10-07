@@ -9,6 +9,13 @@ class DataStreamer:
         print(json.dumps(self.data))
 
     def stream_data_in_string(self):
-        for sensor, readings in self.data.items():
-            for reading in readings:
-                print(sensor + ':' + str(reading))
+        for key, value in self.data.items():
+            values = self.check_value_type(value)
+            for val in values:
+                print(key + ':' + str(val))
+
+    @staticmethod
+    def check_value_type(value):
+        if isinstance(value, list):
+            return value
+        return [value]
