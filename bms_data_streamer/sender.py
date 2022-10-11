@@ -22,9 +22,5 @@ def send_sensors_data():
     sender = DataStreamer(sensors_readings)
     sender.stream_data_in_string()
     # In case a json output is expected uncomment
-    # below line and comment json output
+    # below line and comment string output
     # sender.stream_data_in_json()
-
-
-if __name__ == '__main__':
-    send_sensors_data()

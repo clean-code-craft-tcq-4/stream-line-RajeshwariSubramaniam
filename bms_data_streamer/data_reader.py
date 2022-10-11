@@ -26,17 +26,13 @@ class FileDataReader:
             self.readings[bms_parameter] = self.get_readings_from_file(file)
         return self.readings
 
-    def get_readings_from_file(self, file):
-        readings = []
-        for line in self.read_file(file):
-            if line[:1] == '#':
-                continue
-            reading = line.split('\n')[0]
-            readings.append(reading)
-        return readings
-
     @staticmethod
-    def read_file(file):
+    def get_readings_from_file(file):
+        readings = []
         with open(file, 'r') as f_read:
             for line in f_read:
-                yield line
+                if line[:1] == '#':
+                    continue
+                reading = line.split('\n')[0]
+                readings.append(reading)
+        return readings
