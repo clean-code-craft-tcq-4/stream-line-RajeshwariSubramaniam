@@ -12,6 +12,10 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9'
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -33,3 +37,5 @@ jobs:
           name: coverage
           path: ./htmlcov
           retention-days: 21
+      - name: Run BMS Data Streamer
+        run: python tasks.py generate | python tasks.py send | java StreamReceiver
