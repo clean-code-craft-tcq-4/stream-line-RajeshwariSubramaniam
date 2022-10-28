@@ -9,44 +9,24 @@ import java.util.Scanner;
 public class Receiver {
 	public  void reeciverLogic() {
 		HashMap<String, ArrayList<Float>> paramData = readData();
+		PrintStatistics stats=new PrintStatistics();
 		// For each param print min, max and simple moving average of 5 values
 		paramData.forEach((key, value) -> {
-			printMessage("****************************************************************");
+			printLine();
 			printMessage("For param: " + key);
-			printMinMax(key, value);
+			stats.printMinMax(key, value);
 			printMessage("The simple moving average for 5 values is ");
-			printSimpleMovingAverage(value, 5);
+			stats.printSimpleMovingAverage(value, 5);
 			printMessage("\n");
-			printMessage("****************************************************************");
+			printLine();
 		});
 	}
-
-	private static void printSimpleMovingAverage(ArrayList<Float> value, int period) {
-
-		int i;
-		float sum = 0;
-
-		// Initial sum of period elements.
-		for (i = 0; i < period; i++) {
-			sum += value.get(i);
-			System.out.printf("%.2f ", sum / period);
-		}
-
-		// Compute MA from index K
-		for (i = period; i < value.size(); i++) {
-			sum -= value.get(i - period);
-			sum += value.get(i);
-			System.out.printf("%.2f ", sum / period);
-		}
-	}
-
-	public static void printMinMax(String param, ArrayList<Float> paramValues) {
-
-		printMessage("The min and max values respectively are min=" + Collections.min(paramValues) + " and max="
-				+ Collections.max(paramValues));
-	};
-
-	public static HashMap<String, ArrayList<Float>> readData() {
+public printLine()
+{
+	printMessage("****************************************************************");
+}
+	
+	public  HashMap<String, ArrayList<Float>> readData() {
 		Scanner sc = new Scanner(System.in);
 		// sender data to be provided as input from console
 
