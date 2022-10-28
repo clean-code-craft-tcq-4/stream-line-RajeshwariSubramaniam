@@ -3,7 +3,7 @@ package receiver;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Statistics{
+public class PrintStatistics{
 	public void printSimpleMovingAverage(ArrayList<Float> value, int period) {
 
 		int i;
