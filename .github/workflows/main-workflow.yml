@@ -37,5 +37,9 @@ jobs:
           name: coverage
           path: ./htmlcov
           retention-days: 21
+      - name: Generate Readings
+        run: | 
+          python tasks.py generate
+          ls -R
       - name: Run BMS Data Streamer
-        run: python tasks.py generate | python tasks.py send | java StreamReceiver
+        run: python tasks.py send | java StreamReceiver
