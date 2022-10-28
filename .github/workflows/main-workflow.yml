@@ -48,7 +48,7 @@ jobs:
       - name: Build and Test
         run: mvn -f pom.xml test
       - name: Build and main class
-        run: mvn -f ./pom.xml compile exec:java -Dexec.mainClass="StreamReceiver"
+        run: javac StreamReceiver.java
       - name: Generate Readings
         run: python tasks.py generate
       - name: Run BMS Data Streamer
