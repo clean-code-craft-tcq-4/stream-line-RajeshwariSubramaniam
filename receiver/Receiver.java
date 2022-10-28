@@ -21,7 +21,7 @@ public class Receiver {
 			printLine();
 		});
 	}
-public printLine()
+public void printLine()
 {
 	printMessage("****************************************************************");
 }
