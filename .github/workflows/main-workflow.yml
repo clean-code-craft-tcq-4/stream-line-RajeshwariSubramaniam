@@ -37,6 +37,10 @@ jobs:
           name: coverage
           path: ./htmlcov
           retention-days: 21
+      - name: Build and Test
+        run: mvn -f pom.xml test
+      - name: Build and main class
+        run: mvn -f ./pom.xml compile exec:java -Dexec.mainClass="StreamReceiver"
       - name: Generate Readings
         run: python tasks.py generate
       - name: Run BMS Data Streamer
