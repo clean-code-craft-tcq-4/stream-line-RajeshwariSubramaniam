@@ -1,0 +1,55 @@
+name: Build and Run
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Build and Generate coverage
+        run: mvn test jacoco:report
+      - name: Upload coverage
+        uses: actions/upload-artifact@v2
+        with:
+         name: coverage
+         path: ./target/site/jacoco
+         retention-days: 21
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Lint with flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings.
+          flake8 . --count --exit-zero --max-line-length=80 --ignore=E111,E121,E126 --statistics
+      - name: Run and collect coverage
+        run: |
+          coverage run --branch --source bms_data_streamer -m unittest discover
+          coverage html
+          coverage report
+      - name: Upload coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage
+          path: ./htmlcov
+          retention-days: 21
+      - name: Build and Test
+        run: mvn -f pom.xml test
+      - name: Build and main class
+        run: javac StreamReceiver.java
+      - name: Generate Readings
+        run: python tasks.py generate
+      - name: Run BMS Data Streamer
+        run: python tasks.py send | java StreamReceiver
